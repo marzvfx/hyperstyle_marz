@@ -493,6 +493,9 @@ If you use this code for your research, please cite the following work:
 # MARZ Addition
 ## Installation
 To run this repo, simply use the VanityGAN docker image.
+Download [hyperstyle_ffhq.pt](https://drive.google.com/file/d/1C3dEIIH1y8w1-zQMCyx7rDF0ndswSXh4/view?usp=sharing) and [faces_w_encoder.pt](https://drive.google.com/file/d/1M-hsL3W_cJKs77xM1mwq2e9-J0_m7rHP/view?usp=sharing) and put them in the main folder.
+
+
 ## Editing with StyleCLIP 
 First run the inference for the image you want to edit. 
 ```
@@ -503,7 +506,29 @@ Then, you need to install the official CLIP package:
 ```
 pip install git+https://github.com/openai/CLIP.git
 ``` 
+Download stylegan2-ffhq-config-f.pt and put it in the pretrained_models folder.
  Editing can be performed by running `editing/styleclip/edit.py`:
  ``` 
- python editing/styleclip/edit.py --exp_dir experiment --weight_deltas_path experiment/weight_deltas --neutral_text "a face" --target_tex "a face with a longer forehead"
+ python editing/styleclip/edit.py --exp_dir experiment --weight_deltas_path experiment/weight_deltas 
+ --neutral_text "a face" --target_tex "a face with a longer forehead"
 ``` 
+You can change the `editing/styleclip/edit.py script to read or write the direction for using in the VanityGAN.
+To read a direction as a .pt file:
+``` 
+without_hair_direction = torch.load(path_to_read)
+``` 
+
+To write out a direction to .pt file:
+``` 
+torch.save(direction, path_to_save)    
+``` 
+You can also change the Manipulation strength (alpha) and the Disentanglement threshold (beta) here.
+Arguments to change alpha:
+``` 
+args.alpha_min, args.alpha_max, args.num_alphas
+``` 
+Arguments to change beta:
+``` 
+args.beta_min, args.beta_max, args.num_betas
+``` 
+
