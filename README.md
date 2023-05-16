@@ -490,3 +490,20 @@ If you use this code for your research, please cite the following work:
       primaryClass={cs.CV}
 }
 ```
+# MARZ Addition
+## Installation
+To run this repo, simply use the VanityGAN docker image.
+## Editing with StyleCLIP 
+First run the inference for the image you want to edit. 
+```
+python scripts/inference.py --exp_dir=experiment --checkpoint_path=hyperstyle_ffhq.pt --data_path=POI 
+--test_batch_size=4 --test_workers=4 --n_iters_per_batch=5 --load_w_encoder --w_encoder_checkpoint_path faces_w_encoder.pt --save_weight_deltas
+```
+Then, you need to install the official CLIP package:
+```
+pip install git+https://github.com/openai/CLIP.git
+``` 
+ Editing can be performed by running `editing/styleclip/edit.py`:
+ ``` 
+ python editing/styleclip/edit.py --exp_dir experiment --weight_deltas_path experiment/weight_deltas --neutral_text "a face" --target_tex "a face with a longer forehead"
+``` 
